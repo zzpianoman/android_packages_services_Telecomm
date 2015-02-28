@@ -1150,8 +1150,12 @@ public final class CallsManager extends Call.ListenerBase {
             if (HeadsetMediaButton.SHORT_PRESS == type) {
                 Call ringingCall = getFirstCallWithState(CallState.RINGING);
                 if (ringingCall == null) {
-                    mCallAudioManager.toggleMute();
-                    return true;
+		    if (SystemProperties.getInt("ro.telephony.legacy_mute", 0) == 1) {
+			return true;
+		    } else {
+                        mCallAudioManager.toggleMute();
+                        return true;
+		    }
                 } else {
                     ringingCall.answer(ringingCall.getVideoState());
                     return true;
