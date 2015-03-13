@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.session.MediaSession;
-import android.os.SystemProperties;
 import android.view.KeyEvent;
 
 /**
@@ -50,14 +49,14 @@ final class HeadsetMediaButton extends CallsManagerListenerBase {
             return true;
         }
     };
-    
+
     private final CallsManager mCallsManager;
 
     private final MediaSession mSession;
 
     HeadsetMediaButton(Context context, CallsManager callsManager) {
         mCallsManager = callsManager;
-	
+
         // Create a MediaSession but don't enable it yet. This is a
         // replacement for MediaButtonReceiver
         mSession = new MediaSession(context, HeadsetMediaButton.class.getSimpleName());
@@ -88,11 +87,7 @@ final class HeadsetMediaButton extends CallsManagerListenerBase {
     @Override
     public void onCallAdded(Call call) {
         if (!mSession.isActive()) {
-	    if (SystemProperties.getInt("ro.telephony.legacy_mute", 0) == 1) {
-		return;
-	    } else {
-		mSession.setActive(true);
-	    }
+            mSession.setActive(true);
         }
     }
 

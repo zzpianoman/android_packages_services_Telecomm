@@ -16,12 +16,9 @@
 
 package com.android.server.telecom;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemProperties;
 import android.telecom.PhoneAccountHandle;
-import android.view.KeyEvent;
 
 import com.android.internal.os.SomeArgs;
 import com.android.internal.telecom.IInCallAdapter;
@@ -52,7 +49,7 @@ class InCallAdapter extends IInCallAdapter.Stub {
     private static final int MSG_SWAP_CONFERENCE = 17;
     private static final int MSG_SET_SWITCH_SUBSCRIPTION = 18;
     private static final int MSG_DEFLECT_CALL = 19;
-    
+
     private final class InCallAdapterHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -154,19 +151,7 @@ class InCallAdapter extends IInCallAdapter.Stub {
                     break;
                 }
                 case MSG_MUTE:
-		    // If mute is to be handled by RIL, send it
-     	    	    // as media button keyevent 
-            	    if (SystemProperties.getInt("ro.telephony.legacy_mute", 0) == 1) {
-	        	Log.i(this, "sending media button keyevent for mute through RIL");
-	        	try {
-	    	    	    String cmd = "input keyevent " + KeyEvent.KEYCODE_HEADSETHOOK;
-	    	    	    Process p = Runtime.getRuntime().exec(cmd);
-	    		} catch (Exception e) {
-            	    	    e.printStackTrace();
-	    		}
-	    	    } else {	 		    
-		    mCallsManager.mute(msg.arg1 == 1);
-		    }
+                    mCallsManager.mute(msg.arg1 == 1);
                     break;
                 case MSG_SET_AUDIO_ROUTE:
                     mCallsManager.setAudioRoute(msg.arg1);
