@@ -38,7 +38,6 @@
     <uses-permission android:name="android.permission.BIND_INCALL_SERVICE" />
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
     <uses-permission android:name="android.permission.BROADCAST_CALLLOG_INFO" />
-    <uses-permission android:name="android.permission.INJECT_EVENTS" />
 
     <permission
             android:name="android.permission.BROADCAST_CALLLOG_INFO"
